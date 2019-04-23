@@ -16,15 +16,23 @@ let gameLoopTickThen;
 
 elements.clicker.addEventListener('mousedown', () => {
   clearTimeout(clickTimeoutId);
-
   removeAnimationClasses();
+  createParticles();
+
+  if(Math.random() > 0.6) {
+    openClicker();
+    return;
+  }
 
   requestAnimationFrame(() => {
-    createParticles();
     addAnimationClasses();
     clickTimeoutId = setTimeout(removeAnimationClasses, 1200);
   });
 });
+
+function openClicker() {
+  elements.clicker.classList.add('clicker--open');
+}
 
 function addAnimationClasses() {
   elements.clicker.classList.add('animation--shake');
@@ -45,7 +53,7 @@ function randomBetween(min, max) {
 function createParticles() {
   [...Array(5)].map(() => {
     const particle = {
-      x: randomBetween(-200, 200),
+      x: randomBetween(-150, 150),
       y: randomBetween(-200, 200),
       vX: randomBetween(-500, 500),
       vY: randomBetween(-250, -800),

@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   @keyframes bounce-up {
@@ -15,10 +16,15 @@
   }
 
   @keyframes shake {
-    20% { transform: rotate(8deg)}
-    40% { transform: rotate(-8deg)}
-    60% { transform: rotate(5deg)}
-    80% { transform: rotate(-5deg)}
+    20% { transform: rotate(8deg); }
+    40% { transform: rotate(-8deg); }
+    60% { transform: rotate(5deg); }
+    80% { transform: rotate(-5deg); }
+  }
+
+  @keyframes center-and-spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg);}
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
   }
 
   .animation--shake {
@@ -34,13 +40,6 @@
   .animation--bounce-down {
     animation-name: bounce-down;
     animation-duration: 100ms;
-  }
-
-  .clicker {
-    position: relative;
-    display: block;
-    width: 600px;
-    height: 600px;
   }
 
   .particles-container {
@@ -60,9 +59,22 @@
     width: 200px;
     height: 200px;
     background-image: url('assets/images/particle-egg.png');
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+  }
+
+  .clicker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 600px;
+    height: 600px;
+  }
+
+  .clicker--open {
+    pointer-events: none;
   }
 
   .clicker__shell {
@@ -71,16 +83,57 @@
     display: block;
     width: 100%;
     height: 100%;
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
+  }
+
+  .clicker--open .clicker__shell {
+    transition-property: transform;
+    transition-duration: 1s;
+    animation: none;
+  }
+
+  .clicker--open .clicker__shell--top {
+    transform: rotate(15deg) translateY(-200px);
+  }
+
+  .clicker--open .clicker__shell--bottom {
+    transform: rotate(-15deg) translateY(200px);
+  }
+
+  .halo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    display: block;
+    background-image: url('assets/images/burst.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: translate(-50%, -50%);
+    width: 140vw;
+    height: 140vw;
+    opacity: 0;
+    animation: center-and-spin 30s linear infinite;
+  }
+
+  .clicker--open + .halo {
+    transition-duration: 1s;
+    transition-property: opacity;
+    opacity: 1;
   }
 </style>
 <body>
   <div class="clicker">
     <div class="clicker__shell clicker__shell--top"></div>
     <div class="clicker__shell clicker__shell--bottom"></div>
+    <div class="clicker__reward">
+    </div>
   </div>
+  <div class="halo"></div>
+
   <div class="particles-container"></div>
   <script src="main.js"></script>
 </body>
