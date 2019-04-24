@@ -4,49 +4,85 @@ const elements = {
   clickerBottom: document.querySelector('.clicker__shell--bottom'),
   particlesContainer: document.querySelector('.particles-container'),
   reward: document.querySelector('.clicker__reward'),
+  halo: document.querySelector('.halo'),
 };
 
 elements.clickerTop.style.backgroundImage = `url('assets/images/shell-top-egg.png')`;
 elements.clickerBottom.style.backgroundImage = `url('assets/images/shell-bottom-egg.png')`;
 
+const rewards = [
+  {
+    name: 'moon',
+    rarity: 1,
+  },
+  {
+    name: 'socks',
+    rarity: 0,
+  }
+];
+
 const GRAVITY = 20;
+const maxRarity = rewards.reduce((max, reward) => reward.rarity > max ? reward.rarity : max, 0);
+
 const gameState = {
   shellOpen: false,
+  currentReward: rewards[0]
 };
 
 let clickTimeoutId;
-let rewardClickTimeoutId;
-let particles = [];
 let gameLoopTickThen;
+let particles = [];
 
-elements.clicker.addEventListener('mousedown', () => {
-  if(gameState.shellOpen) return;
-  const shellWillOpen = Math.random() > 0.8;
-  const particleCount = shellWillOpen ? 35 : 3;
+function setNewReward() {
+  const rewardIndex = Math.floor(Math.random() * rewards.length);
+  const reward = rewards[rewardIndex];
 
-  clearTimeout(clickTimeoutId);
-  removeAnimationClasses();
-  createParticles(particleCount);
+  gameState.currentReward = reward;
+  elements.reward.style.backgroundImage = `url('assets/images/reward-${reward.name}.png')`;
+}
 
-  if(shellWillOpen) {
-    openShell();
-    return;
-  }
+function setEventListeners() {
+  elements.clicker.addEventListener('mousedown', () => {
+    if(gameState.shellOpen) return;
+    const shellWillOpen = Math.random() > 0.8;
+    const particleCount = shellWillOpen ? 35 : 3;
 
-  requestAnimationFrame(() => {
-    addAnimationClasses();
-    clickTimeoutId = setTimeout(removeAnimationClasses, 1200);
+    clearTimeout(clickTimeoutId);
+    removeAnimationClasses();
+    createParticles(particleCount);
+
+    if(shellWillOpen) {
+      openShell();
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      addAnimationClasses();
+      clickTimeoutId = setTimeout(removeAnimationClasses, 1200);
+    });
   });
-});
 
-elements.reward.addEventListener('mousedown', (e) => {
-  e.stopPropagation();
-  closeShell();
-});
+  elements.reward.addEventListener('mousedown', (e) => {
+    e.stopPropagation();
+    closeShell();
+  });
+
+  window.addEventListener('resize', () => {
+    setHaloSize();
+  });
+}
+
+function setHaloSize() {
+  const maxDimensions = Math.max(window.innerWidth, window.innerHeight);
+  const haloSize = maxDimensions * 1.4;
+  elements.halo.style.width = `${haloSize}px`;
+  elements.halo.style.height = `${haloSize}px`;
+}
 
 function openShell() {
   gameState.shellOpen = true;
   elements.clicker.classList.add('clicker--open');
+  elements.clicker.classList.remove('clickable');
 
   setTimeout(() => {
     elements.reward.classList.add('animation--bounce-appear');
@@ -54,7 +90,7 @@ function openShell() {
     setTimeout(() => {
       elements.reward.classList.remove('animation--bounce-appear');
       elements.reward.classList.add('animation--attention');
-      elements.reward.classList.add('clicker__reward--clickable');
+      elements.reward.classList.add('clickable');
     }, 500);
   }, 1000);
 }
@@ -62,7 +98,7 @@ function openShell() {
 function closeShell() {
   gameState.shellOpen = false;
   elements.reward.classList.remove('animation--attention');
-  elements.reward.classList.remove('clicker__reward--clickable');
+  elements.reward.classList.remove('clickable');
   elements.reward.classList.add('animation--evaporate');
 
   setTimeout(() => {
@@ -70,6 +106,8 @@ function closeShell() {
     elements.clicker.classList.remove('clicker--open');
 
     setTimeout(() => {
+      setNewReward();
+      elements.clicker.classList.add('clickable');
       elements.reward.classList.remove('animation--evaporate');
       elements.clicker.classList.remove('animation--bounce-appear');
     }, 1000);
@@ -165,8 +203,12 @@ function particleIsAlive(particle) {
 }
 
 function boot() {
+  setHaloSize();
+  setNewReward();
   gameLoopTickThen = Date.now() - 16;
   gameLoop();
+  setEventListeners();
+  elements.clicker.classList.add('clickable');
 }
 
 boot();
