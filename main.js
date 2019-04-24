@@ -34,8 +34,10 @@ let gameLoopTickThen;
 let particles = [];
 
 function setNewReward() {
-  const rewardIndex = Math.floor(Math.random() * rewards.length);
-  const reward = rewards[rewardIndex];
+  const nextRewardMaxRarity = Math.floor(maxRarity * Math.random());
+  const possibleRewards = rewards.filter(reward => reward.rarity <= nextRewardMaxRarity);
+  const rewardIndex = Math.floor(Math.random() * possibleRewards.length);
+  const reward = possibleRewards[rewardIndex];
 
   gameState.currentReward = reward;
   elements.reward.style.backgroundImage = `url('assets/images/reward-${reward.name}.png')`;
