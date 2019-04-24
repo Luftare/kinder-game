@@ -27,7 +27,8 @@ const maxRarity = rewards.reduce((max, reward) => reward.rarity > max ? reward.r
 
 const gameState = {
   shellOpen: false,
-  currentReward: rewards[0]
+  currentReward: rewards[0],
+  clicksToNextReward: 5,
 };
 
 let clickTimeoutId;
@@ -40,8 +41,11 @@ function setNewReward() {
   const possibleRewards = rewards.filter(reward => reward.rarity === nextRewardRarity);
   const rewardIndex = Math.floor(Math.random() * possibleRewards.length);
   const reward = possibleRewards[rewardIndex];
+  const clicksToNextReward = Math.round(randomBetween(5, 10 + nextRewardRarity * 5));
 
+  gameState.clicksToNextReward = clicksToNextReward;
   gameState.currentReward = reward;
+
   elements.reward.style.backgroundImage = `url('assets/images/reward-${reward.name}.png')`;
   elements.halo.style.backgroundImage = `url('assets/images/halo-${reward.rarity}.jpg')`;
 }
@@ -49,7 +53,10 @@ function setNewReward() {
 function setEventListeners() {
   elements.clicker.addEventListener('mousedown', () => {
     if(gameState.shellOpen) return;
-    const shellWillOpen = Math.random() > 0.8;
+
+    gameState.clicksToNextReward--;
+
+    const shellWillOpen = gameState.clicksToNextReward <= 0;
     const particleCount = shellWillOpen ? 35 : 1;
 
     clearTimeout(clickTimeoutId);
