@@ -13,6 +13,10 @@ elements.clickerBottom.style.backgroundImage = `url('assets/images/shell-bottom-
 const rewards = [
   {
     name: 'moon',
+    rarity: 2,
+  },
+  {
+    name: 'flower',
     rarity: 1,
   },
   {
@@ -41,13 +45,13 @@ function setNewReward() {
   const possibleRewards = rewards.filter(reward => reward.rarity === nextRewardRarity);
   const rewardIndex = Math.floor(Math.random() * possibleRewards.length);
   const reward = possibleRewards[rewardIndex];
-  const clicksToNextReward = Math.round(randomBetween(5, 10 + nextRewardRarity * 5));
+  const clicksToNextReward = Math.round(randomBetween(3, 5 + nextRewardRarity * 5));
 
   gameState.clicksToNextReward = clicksToNextReward;
   gameState.currentReward = reward;
 
   elements.reward.style.backgroundImage = `url('assets/images/reward-${reward.name}.png')`;
-  elements.halo.style.backgroundImage = `url('assets/images/halo-${reward.rarity}.jpg')`;
+  elements.halo.style.backgroundImage = `url('assets/images/halo-${reward.rarity}.png')`;
 }
 
 function setEventListeners() {
