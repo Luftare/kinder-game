@@ -22,7 +22,7 @@ const rewards = [
 ];
 
 const GRAVITY = 20;
-const RARITY_CURVE = 0.5;
+const RARITY_CURVE = 1;
 const maxRarity = rewards.reduce((max, reward) => reward.rarity > max ? reward.rarity : max, 0);
 
 const gameState = {
@@ -112,10 +112,10 @@ function closeShell() {
 
     setTimeout(() => {
       setNewReward();
-      elements.clicker.classList.add('clickable');
       elements.reward.classList.remove('animation--evaporate');
       elements.clicker.classList.remove('animation--bounce-appear');
-    }, 300);
+      elements.clicker.classList.add('clickable');
+    }, 500);
   }, 300);
 
 }
