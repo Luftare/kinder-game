@@ -3,24 +3,33 @@ const elements = {
   clickerTop: document.querySelector('.clicker__shell--top'),
   clickerBottom: document.querySelector('.clicker__shell--bottom'),
   particlesContainer: document.querySelector('.particles-container'),
+  reward: document.querySelector('.clicker__reward'),
 };
 
 elements.clickerTop.style.backgroundImage = `url('assets/images/shell-top-egg.png')`;
 elements.clickerBottom.style.backgroundImage = `url('assets/images/shell-bottom-egg.png')`;
 
 const GRAVITY = 20;
+const gameState = {
+  shellOpen: false,
+};
 
 let clickTimeoutId;
+let rewardClickTimeoutId;
 let particles = [];
 let gameLoopTickThen;
 
 elements.clicker.addEventListener('mousedown', () => {
+  if(gameState.shellOpen) return;
+  const shellWillOpen = Math.random() > 0.8;
+  const particleCount = shellWillOpen ? 35 : 3;
+
   clearTimeout(clickTimeoutId);
   removeAnimationClasses();
-  createParticles();
+  createParticles(particleCount);
 
-  if(Math.random() > 0.6) {
-    openClicker();
+  if(shellWillOpen) {
+    openShell();
     return;
   }
 
@@ -30,8 +39,42 @@ elements.clicker.addEventListener('mousedown', () => {
   });
 });
 
-function openClicker() {
+elements.reward.addEventListener('mousedown', (e) => {
+  e.stopPropagation();
+  closeShell();
+});
+
+function openShell() {
+  gameState.shellOpen = true;
   elements.clicker.classList.add('clicker--open');
+
+  setTimeout(() => {
+    elements.reward.classList.add('animation--bounce-appear');
+
+    setTimeout(() => {
+      elements.reward.classList.remove('animation--bounce-appear');
+      elements.reward.classList.add('animation--attention');
+      elements.reward.classList.add('clicker__reward--clickable');
+    }, 500);
+  }, 1000);
+}
+
+function closeShell() {
+  gameState.shellOpen = false;
+  elements.reward.classList.remove('animation--attention');
+  elements.reward.classList.remove('clicker__reward--clickable');
+  elements.reward.classList.add('animation--evaporate');
+
+  setTimeout(() => {
+    elements.clicker.classList.add('animation--bounce-appear');
+    elements.clicker.classList.remove('clicker--open');
+
+    setTimeout(() => {
+      elements.reward.classList.remove('animation--evaporate');
+      elements.clicker.classList.remove('animation--bounce-appear');
+    }, 1000);
+  }, 500);
+
 }
 
 function addAnimationClasses() {
@@ -44,14 +87,15 @@ function removeAnimationClasses() {
   elements.clicker.classList.remove('animation--shake');
   elements.clickerTop.classList.remove('animation--bounce-up');
   elements.clickerBottom.classList.remove('animation--bounce-down');
+  elements.clicker.classList.remove('animation--bounce-appear');
 }
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function createParticles() {
-  [...Array(5)].map(() => {
+function createParticles(count) {
+  [...Array(count)].map(() => {
     const particle = {
       x: randomBetween(-150, 150),
       y: randomBetween(-200, 200),
