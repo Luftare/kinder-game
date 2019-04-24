@@ -22,6 +22,7 @@ const rewards = [
 ];
 
 const GRAVITY = 20;
+const RARITY_CURVE = 0.5;
 const maxRarity = rewards.reduce((max, reward) => reward.rarity > max ? reward.rarity : max, 0);
 
 const gameState = {
@@ -34,20 +35,22 @@ let gameLoopTickThen;
 let particles = [];
 
 function setNewReward() {
-  const nextRewardMaxRarity = Math.floor(maxRarity * Math.random());
-  const possibleRewards = rewards.filter(reward => reward.rarity <= nextRewardMaxRarity);
+  const weightedRandom = 1 - Math.random() ** RARITY_CURVE;
+  const nextRewardRarity = Math.round(maxRarity * weightedRandom);
+  const possibleRewards = rewards.filter(reward => reward.rarity === nextRewardRarity);
   const rewardIndex = Math.floor(Math.random() * possibleRewards.length);
   const reward = possibleRewards[rewardIndex];
 
   gameState.currentReward = reward;
   elements.reward.style.backgroundImage = `url('assets/images/reward-${reward.name}.png')`;
+  elements.halo.style.backgroundImage = `url('assets/images/halo-${reward.rarity}.jpg')`;
 }
 
 function setEventListeners() {
   elements.clicker.addEventListener('mousedown', () => {
     if(gameState.shellOpen) return;
     const shellWillOpen = Math.random() > 0.8;
-    const particleCount = shellWillOpen ? 35 : 3;
+    const particleCount = shellWillOpen ? 35 : 1;
 
     clearTimeout(clickTimeoutId);
     removeAnimationClasses();
@@ -94,7 +97,7 @@ function openShell() {
       elements.reward.classList.add('animation--attention');
       elements.reward.classList.add('clickable');
     }, 500);
-  }, 1000);
+  }, 1500);
 }
 
 function closeShell() {
@@ -112,8 +115,8 @@ function closeShell() {
       elements.clicker.classList.add('clickable');
       elements.reward.classList.remove('animation--evaporate');
       elements.clicker.classList.remove('animation--bounce-appear');
-    }, 1000);
-  }, 500);
+    }, 300);
+  }, 300);
 
 }
 
