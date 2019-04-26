@@ -120,7 +120,8 @@ function setNewReward() {
 }
 
 function setEventListeners() {
-  function handleClickerClick() {
+  function handleClickerClick(e) {
+    e.stopPropagation();
     if(gameState.shellOpen) return;
 
     gameState.clicksToNextReward--;
@@ -150,11 +151,11 @@ function setEventListeners() {
     closeShell();
   }
 
-  elements.clicker.addEventListener('mousedown', handleClickerClick);
-  elements.clicker.addEventListener('touchstart', handleClickerClick);
+  elements.clicker.addEventListener('mousedown', handleClickerClick, false);
+  elements.clicker.addEventListener('touchstart', handleClickerClick, false);
 
-  elements.reward.addEventListener('mousedown', handleRewardClick);
-  elements.reward.addEventListener('touchstart', handleRewardClick);
+  elements.reward.addEventListener('mousedown', handleRewardClick, false);
+  elements.reward.addEventListener('touchstart', handleRewardClick, false);
 
   window.addEventListener('resize', () => {
     setHaloSize();
