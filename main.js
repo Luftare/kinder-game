@@ -151,11 +151,10 @@ function setEventListeners() {
     closeShell();
   }
 
-  elements.clicker.addEventListener('mousedown', handleClickerClick, false);
-  elements.clicker.addEventListener('touchstart', handleClickerClick, false);
+  const eventName = window.ontouchstart ? 'touchstart' : 'mousedown';
 
-  elements.reward.addEventListener('mousedown', handleRewardClick, false);
-  elements.reward.addEventListener('touchstart', handleRewardClick, false);
+  elements.clicker.addEventListener(eventName, handleClickerClick, false);
+  elements.reward.addEventListener(eventName, handleRewardClick, false);
 
   window.addEventListener('resize', () => {
     setHaloSize();
@@ -280,7 +279,8 @@ function updateGame(dt) {
 }
 
 function updateParticleElement(particle) {
-  particle.element.style.transform = `translate(-50%, -50%) translate(${particle.x}px, ${particle.y}px) rotate(${particle.angle}rad) scale(${particle.scale}, ${particle.scale})`;
+  const transform = `translate(-50%, -50%) translate(${particle.x}px, ${particle.y}px) rotate(${particle.angle}rad) scale(${particle.scale}, ${particle.scale})`;
+  particle.element.style.transform = transform;
 }
 
 function updateParticle(dt) {
