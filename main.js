@@ -17,12 +17,10 @@ const howl = new Howl({
     rarity2: [6000, 2000],
     rarity3: [8000, 2000],
     rarity4: [10000, 2000],
-    shine: [12440, 3550]
+    shine: [12440, 3550],
+    shaker: [17000, 800],
   }
 });
-
-elements.clickerTop.style.backgroundImage = `url('assets/images/shell-top-egg.png')`;
-elements.clickerBottom.style.backgroundImage = `url('assets/images/shell-bottom-egg.png')`;
 
 const rewards = [
   {
@@ -195,7 +193,7 @@ function openShell() {
 }
 
 function closeShell() {
-
+  howl.play('shaker');
   howl.fade(0.3, 0, 300, shineFXPlaybackId);
   gameState.shellOpen = false;
   elements.reward.classList.remove('animation--attention');

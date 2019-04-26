@@ -12,7 +12,7 @@
   />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="description" content="Snowboard" />
+  <meta name="description" content="Surprise Egg" />
   <meta
     name="apple-mobile-web-app-status-bar-style"
     content="black-translucent"
@@ -82,6 +82,14 @@
     transition-duration: 1s;
     opacity: 0;
     animation: none;
+  }
+
+  .clicker__shell--top {
+    background-image: url('assets/images/shell-top-egg.png');
+  }
+
+  .clicker__shell--bottom {
+    background-image: url('assets/images/shell-bottom-egg.png');
   }
 
   .clicker--open .clicker__shell--top {
@@ -204,8 +212,7 @@
   <div class="clicker">
     <div class="clicker__shell clicker__shell--top"></div>
     <div class="clicker__shell clicker__shell--bottom"></div>
-    <div class="clicker__reward">
-    </div>
+    <div class="clicker__reward"></div>
   </div>
   <div class="halo"></div>
 
