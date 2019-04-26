@@ -235,8 +235,8 @@ function randomBetween(min, max) {
 function createParticles(count) {
   [...Array(count)].map(() => {
     const particle = {
-      x: randomBetween(-innerWidth * 0.1, innerWidth * 0.1),
-      y: randomBetween(-innerHeight * 0.2, innerHeight * 0.2),
+      x: innerWidth * 0.5 + randomBetween(-innerWidth * 0.1, innerWidth * 0.1),
+      y: innerHeight * 0.5 + randomBetween(-innerHeight * 0.2, innerHeight * 0.2),
       vX: randomBetween(-500, 500),
       vY: randomBetween(-250, -800),
       life: 2,
