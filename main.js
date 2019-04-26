@@ -122,7 +122,7 @@ function setNewReward() {
 }
 
 function setEventListeners() {
-  elements.clicker.addEventListener('mousedown', () => {
+  function handleClickerClick() {
     if(gameState.shellOpen) return;
 
     gameState.clicksToNextReward--;
@@ -145,12 +145,18 @@ function setEventListeners() {
       addAnimationClasses();
       clickTimeoutId = setTimeout(removeAnimationClasses, 1200);
     });
-  });
+  }
 
-  elements.reward.addEventListener('mousedown', (e) => {
+  function handleRewardClick(e) {
     e.stopPropagation();
     closeShell();
-  });
+  }
+
+  elements.clicker.addEventListener('mousedown', handleClickerClick);
+  elements.clicker.addEventListener('touchstart', handleClickerClick);
+
+  elements.reward.addEventListener('mousedown', handleRewardClick);
+  elements.reward.addEventListener('touchstart', handleRewardClick);
 
   window.addEventListener('resize', () => {
     setHaloSize();
