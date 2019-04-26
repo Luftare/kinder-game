@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+<html>
 <head>
   <meta charset="utf-8" />
   <meta
@@ -21,209 +22,212 @@
     name="viewport"
     content="viewport-fit=cover, width=device-width, user-scalable=no"
   />
-</head>
 
-<style>
-  html {
-    margin: 0;
-    padding: 0;
-  }
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
 
-  body {
-    background-color: #444;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    height: 100vh;
-  }
+    .game {
+      background-color: #444;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+    }
 
-  .particles-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 1px;
-    height: 1px;
-    pointer-events: none;
-  }
+    .particles-container {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1px;
+      height: 1px;
+      pointer-events: none;
+    }
 
-  .particle {
-    position: absolute;
-    display: block;
-    width: 25vw;
-    height: 25vw;
-    background-image: url('assets/images/particle-egg.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+    .particle {
+      position: absolute;
+      display: block;
+      width: 25vw;
+      height: 25vw;
+      background-image: url('assets/images/particle-egg.png');
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-  .clicker {
-    pointer-events: none;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 90vw;
-    height: 90vh;
-  }
+    .clicker {
+      pointer-events: none;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 90vw;
+      height: 90vh;
+    }
 
-  .clicker--open {}
+    .clicker--open {}
 
-  .clicker__shell {
-    position: absolute;
-    top: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-  }
+    .clicker__shell {
+      position: absolute;
+      top: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
 
-  .clicker--open .clicker__shell {
-    transition-property: transform opacity;
-    transition-duration: 1s;
-    opacity: 0;
-    animation: none;
-  }
+    .clicker--open .clicker__shell {
+      transition-property: transform opacity;
+      transition-duration: 1s;
+      opacity: 0;
+      animation: none;
+    }
 
-  .clicker__shell--top {
-    background-image: url('assets/images/shell-top-egg.png');
-  }
+    .clicker__shell--top {
+      background-image: url('assets/images/shell-top-egg.png');
+    }
 
-  .clicker__shell--bottom {
-    background-image: url('assets/images/shell-bottom-egg.png');
-  }
+    .clicker__shell--bottom {
+      background-image: url('assets/images/shell-bottom-egg.png');
+    }
 
-  .clicker--open .clicker__shell--top {
-    transform: rotate(15deg) translateY(-200px);
-  }
+    .clicker--open .clicker__shell--top {
+      transform: rotate(15deg) translateY(-200px);
+    }
 
-  .clicker--open .clicker__shell--bottom {
-    transform: rotate(-15deg) translateY(200px);
-  }
+    .clicker--open .clicker__shell--bottom {
+      transform: rotate(-15deg) translateY(200px);
+    }
 
-  .clicker__reward {
-    display: block;
-    width: 30vw;
-    height: 30vw;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0;
-    pointer-events: none;
-  }
+    .clicker__reward {
+      display: block;
+      width: 30vw;
+      height: 30vw;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      opacity: 0;
+      pointer-events: none;
+    }
 
-  .halo {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    z-index: -1;
-    display: block;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    animation: center-and-spin 30s linear infinite;
-    transition-property: opacity;
-    transition-duration: 500ms;
-  }
+    .halo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: -1;
+      display: block;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      animation: center-and-spin 30s linear infinite;
+      transition-property: opacity;
+      transition-duration: 500ms;
+    }
 
-  .clicker--open + .halo {
-    opacity: 1;
-  }
-
-  @keyframes bounce-up {
-    50% { transform: translateY(-10px); }
-  }
-
-  @keyframes bounce-down {
-    50% { transform: translateY(10px); }
-  }
-
-  @keyframes shake {
-    30% { transform: rotate(8deg); }
-    60% { transform: rotate(-8deg); }
-  }
-
-  @keyframes center-and-spin {
-    0% { transform: translate(-50%, -50%) rotate(0deg);}
-    100% { transform: translate(-50%, -50%) rotate(360deg); }
-  }
-
-  @keyframes delayed-bounce {
-    0%, 80%, 100% { transform: scale(1, 1); }
-    85% { transform: scale(1, 1.1); }
-    90% { transform: scale(1.1, 0.9); }
-  }
-
-  @keyframes bounce-appear {
-    0% { transform: scale(0, 0); }
-    60% { transform: scale(0.9, 1.1); }
-    80% { transform: scale(1.1, 0.9); }
-    100% { transform: scale(1, 1); }
-  }
-
-  @keyframes evaporate {
-    0% {
-      transform: scale(1, 1);
+    .clicker--open + .halo {
       opacity: 1;
     }
-    100% {
-      transform: scale(2, 2);
-      opacity: 0;
+
+    @keyframes bounce-up {
+      50% { transform: translateY(-10px); }
     }
-  }
 
-  .animation--bounce-appear {
-    animation-name: bounce-appear;
-    animation-duration: 500ms;
-    opacity: 1;
-  }
+    @keyframes bounce-down {
+      50% { transform: translateY(10px); }
+    }
 
-  .animation--shake {
-    animation-name: shake;
-    animation-duration: 200ms;
-  }
+    @keyframes shake {
+      30% { transform: rotate(8deg); }
+      60% { transform: rotate(-8deg); }
+    }
 
-  .animation--bounce-up {
-    animation-name: bounce-up;
-    animation-duration: 100ms;
-  }
+    @keyframes center-and-spin {
+      0% { transform: translate(-50%, -50%) rotate(0deg);}
+      100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
 
-  .animation--bounce-down {
-    animation-name: bounce-down;
-    animation-duration: 100ms;
-  }
+    @keyframes delayed-bounce {
+      0%, 80%, 100% { transform: scale(1, 1); }
+      85% { transform: scale(1, 1.1); }
+      90% { transform: scale(1.1, 0.9); }
+    }
 
-  .animation--evaporate {
-    animation-name: evaporate;
-    animation-duration: 500ms;
-  }
+    @keyframes bounce-appear {
+      0% { transform: scale(0, 0); }
+      60% { transform: scale(0.9, 1.1); }
+      80% { transform: scale(1.1, 0.9); }
+      100% { transform: scale(1, 1); }
+    }
 
-  .animation--attention {
-    animation: delayed-bounce 2s linear infinite;
-    opacity: 1;
-  }
+    @keyframes evaporate {
+      0% {
+        transform: scale(1, 1);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2, 2);
+        opacity: 0;
+      }
+    }
 
-  .clickable {
-    pointer-events: all;
-  }
-</style>
+    .animation--bounce-appear {
+      animation-name: bounce-appear;
+      animation-duration: 500ms;
+      opacity: 1;
+    }
+
+    .animation--shake {
+      animation-name: shake;
+      animation-duration: 200ms;
+    }
+
+    .animation--bounce-up {
+      animation-name: bounce-up;
+      animation-duration: 100ms;
+    }
+
+    .animation--bounce-down {
+      animation-name: bounce-down;
+      animation-duration: 100ms;
+    }
+
+    .animation--evaporate {
+      animation-name: evaporate;
+      animation-duration: 500ms;
+    }
+
+    .animation--attention {
+      animation: delayed-bounce 2s linear infinite;
+      opacity: 1;
+    }
+
+    .clickable {
+      pointer-events: all;
+    }
+  </style>
+</head>
 <body>
-  <div class="clicker">
-    <div class="clicker__shell clicker__shell--top"></div>
-    <div class="clicker__shell clicker__shell--bottom"></div>
-    <div class="clicker__reward"></div>
-  </div>
-  <div class="halo"></div>
+  <div class="game">
+    <div class="clicker">
+      <div class="clicker__shell clicker__shell--top"></div>
+      <div class="clicker__shell clicker__shell--bottom"></div>
+      <div class="clicker__reward"></div>
+    </div>
+    <div class="halo"></div>
 
-  <div class="particles-container"></div>
+    <div class="particles-container"></div>
+  </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.1.2/howler.min.js"></script>
   <script src="main.js"></script>
 </body>
+</html>
