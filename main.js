@@ -12,7 +12,27 @@ elements.clickerBottom.style.backgroundImage = `url('assets/images/shell-bottom-
 
 const rewards = [
   {
+    name: 'diamond',
+    rarity: 4,
+  },
+  {
+    name: 'heart',
+    rarity: 3,
+  },
+  {
+    name: 'lamb',
+    rarity: 3,
+  },
+  {
     name: 'moon',
+    rarity: 2,
+  },
+  {
+    name: 'rainbow',
+    rarity: 2,
+  },
+  {
+    name: 'rocket',
     rarity: 2,
   },
   {
@@ -20,13 +40,45 @@ const rewards = [
     rarity: 1,
   },
   {
+    name: 'cloud',
+    rarity: 1,
+  },
+  {
+    name: 'traffic-lights',
+    rarity: 1,
+  },
+  {
+    name: 'clock',
+    rarity: 1,
+  },
+  {
     name: 'socks',
     rarity: 0,
-  }
+  },
+  {
+    name: 'bicycle',
+    rarity: 0,
+  },
+  {
+    name: 'boots',
+    rarity: 0,
+  },
+  {
+    name: 'pine',
+    rarity: 0,
+  },
+  {
+    name: 'plane',
+    rarity: 0,
+  },
+  {
+    name: 'window',
+    rarity: 0,
+  },
 ];
 
 const GRAVITY = 20;
-const RARITY_CURVE = 1;
+const RARITY_CURVE = 0.3;
 const maxRarity = rewards.reduce((max, reward) => reward.rarity > max ? reward.rarity : max, 0);
 
 const gameState = {
