@@ -7,6 +7,20 @@ const elements = {
   halo: document.querySelector('.halo'),
 };
 
+const howl = new Howl({
+  src: ['assets/audio/fx.mp3'],
+  sprite: {
+    tick: [0, 400],
+    crack: [1000, 400],
+    rarity0: [2000, 2000],
+    rarity1: [4000, 2000],
+    rarity2: [6000, 2000],
+    rarity3: [8000, 2000],
+    rarity4: [10000, 2000],
+    shine: [12440, 3550]
+  }
+});
+
 elements.clickerTop.style.backgroundImage = `url('assets/images/shell-top-egg.png')`;
 elements.clickerBottom.style.backgroundImage = `url('assets/images/shell-bottom-egg.png')`;
 
@@ -88,6 +102,7 @@ const gameState = {
 };
 
 let clickTimeoutId;
+let shineFXPlaybackId;
 let gameLoopTickThen;
 let particles = [];
 
@@ -122,6 +137,8 @@ function setEventListeners() {
     if(shellWillOpen) {
       openShell();
       return;
+    } else {
+      howl.play('tick');
     }
 
     requestAnimationFrame(() => {
@@ -152,8 +169,16 @@ function openShell() {
   elements.clicker.classList.add('clicker--open');
   elements.clicker.classList.remove('clickable');
 
+  howl.play('crack');
+
+  shineFXPlaybackId = howl.play('shine');
+  howl.loop(true, shineFXPlaybackId);
+  howl.volume(0.0, shineFXPlaybackId);
+  howl.fade(0, 0.3, 2000, shineFXPlaybackId);
+
   setTimeout(() => {
     elements.reward.classList.add('animation--bounce-appear');
+    howl.play(`rarity${gameState.currentReward.rarity}`);
 
     setTimeout(() => {
       elements.reward.classList.remove('animation--bounce-appear');
@@ -164,12 +189,15 @@ function openShell() {
 }
 
 function closeShell() {
+
+  howl.fade(0.3, 0, 300, shineFXPlaybackId);
   gameState.shellOpen = false;
   elements.reward.classList.remove('animation--attention');
   elements.reward.classList.remove('clickable');
   elements.reward.classList.add('animation--evaporate');
 
   setTimeout(() => {
+    howl.stop(shineFXPlaybackId);
     elements.clicker.classList.add('animation--bounce-appear');
     elements.clicker.classList.remove('clicker--open');
 

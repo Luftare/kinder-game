@@ -1,0 +1,22 @@
+{
+  "name": "kinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "python -m http.server 8888",
+    "dev-alt": "python -m SimpleHTTPServer 8888"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luftare/kinder-game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luftare/kinder-game/issues"
+  },
+  "homepage": "https://github.com/Luftare/kinder-game#readme"
+}
