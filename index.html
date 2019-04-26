@@ -24,30 +24,37 @@
 </head>
 
 <style>
+  html {
+    margin: 0;
+    padding: 0;
+  }
+
   body {
     background-color: #444;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
   }
 
   .particles-container {
     position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    left: 50%;
+    top: 50%;
+    width: 1px;
+    height: 1px;
     pointer-events: none;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
   }
 
   .particle {
     position: absolute;
     display: block;
-    width: 200px;
-    height: 200px;
+    width: 25vw;
+    height: 25vw;
     background-image: url('assets/images/particle-egg.png');
     background-size: contain;
     background-position: center;
@@ -60,8 +67,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 600px;
-    height: 600px;
+    width: 90vw;
+    height: 90vh;
   }
 
   .clicker--open {}
@@ -102,8 +109,8 @@
 
   .clicker__reward {
     display: block;
-    width: 300px;
-    height: 300px;
+    width: 30vw;
+    height: 30vw;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;

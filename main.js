@@ -235,17 +235,18 @@ function randomBetween(min, max) {
 function createParticles(count) {
   [...Array(count)].map(() => {
     const particle = {
-      x: randomBetween(-150, 150),
-      y: randomBetween(-200, 200),
+      x: randomBetween(-innerWidth * 0.1, innerWidth * 0.1),
+      y: randomBetween(-innerHeight * 0.2, innerHeight * 0.2),
       vX: randomBetween(-500, 500),
       vY: randomBetween(-250, -800),
       life: 2,
-      scale: randomBetween(0.1, 0.5),
+      scale: randomBetween(0.2, 1),
       angle: Math.random() * Math.PI * 2,
       angularVelocity: randomBetween(-5, 5),
       element: document.createElement('div')
     };
 
+    console.log(particle.x, particle.y)
     particle.element.classList.add('particle');
     updateParticleElement(particle);
 
@@ -279,7 +280,7 @@ function updateGame(dt) {
 }
 
 function updateParticleElement(particle) {
-  particle.element.style.transform = `translate(${particle.x}px, ${particle.y}px) rotate(${particle.angle}rad) scale(${particle.scale}, ${particle.scale})`;
+  particle.element.style.transform = `translate(-50%, -50%) translate(${particle.x}px, ${particle.y}px) rotate(${particle.angle}rad) scale(${particle.scale}, ${particle.scale})`;
 }
 
 function updateParticle(dt) {
