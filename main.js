@@ -246,7 +246,6 @@ function createParticles(count) {
       element: document.createElement('div')
     };
 
-    console.log(particle.x, particle.y)
     particle.element.classList.add('particle');
     updateParticleElement(particle);
 
